@@ -3,13 +3,11 @@ import paho.mqtt.client as mqtt_client
 import random
 import serial
 
-port = "COM9"
+port = "COM3"
 ser = serial.Serial(port, 9600)
 
 mean = 0
 otvet = 0
-# max_porog = 0
-# min_porog = 0
 listic = []
 listic_len = 5
 
@@ -20,14 +18,13 @@ def po_porogu(data, topic):
         mean = float(data)
     elif("/porog" in topic):
         otvet = int(data)
-    # else:
-    #     mean = (max_porog + min_porog) / 2
+   
     if (otvet >= mean):
         ser.write("1".encode())
     else:
         ser.write("0".encode())
     print("mean =", mean, "data =", data)
-    # ser.write("1".encode())
+  
 
 def dec_inc(data):
     print(f"recieved sensor level{ data}")
@@ -61,7 +58,7 @@ def on_message(client, userdata, message):
     topic = message.topic
     global listic
     global listic_len
-    #topic = str(message.topic.decode("utf-8"))
+    
     print(f"Received meassage on topic: {data}")
     if ("/stream4" in topic):
         listic.append(data)
@@ -71,8 +68,7 @@ def on_message(client, userdata, message):
 
     if ("/mean" in topic or "/porog" in topic):
         po_porogu(data, topic)
-    #     stack.append(data)
-    # po_porogu(data, topic)
+    
     return data
 
 broker="broker.emqx.io"
@@ -87,24 +83,16 @@ except Exception:
     exit()
     
 client.loop_start()
-
-# wait_time = 5
-# sleep_time = 1    
-# while not client.is_connected():
-#     time.sleep(sleep_time)
-#     wait_time -= sleep_time
-#     if not wait_time:
-#         raise ValueError('Failed to connect. Timeout')
-    
+ 
 print('Subscribing')
 client.subscribe('lab/UNIQUE_ID/photo/instant')
 client.subscribe('lab/UNIQUE_ID/photo/averge')
 client.subscribe('lab/UNIQUE_ID/photo/stream')
 client.subscribe('lab/UNIQUE_ID/photo/stream4')
 client.subscribe('lab/UNIQUE_ID/photo/mean')
-# client.subscribe('lab/UNIQUE_ID/photo/min')
+
 client.subscribe('lab/UNIQUE_ID/photo/porog')
 time.sleep(600)
 client.disconnect()
 client.loop_stop()
-print('Stop communication')
+print('Stop')

@@ -25,10 +25,10 @@ if __name__ == '__main__':
             2 - transfer of averaged data
             3 - streaming data
             4 - Stream min, max and current values (20 seconds)
-            5 - on the threshold of turning on the light""")
+            5 - on the threshold of turning on the light""")     
     while(True):
         if stinput:
-            command = int(input("Enter: "))
+            command = int(input("Enter: "))   
 
         while ser.inWaiting() < 2:
             pass
@@ -73,7 +73,6 @@ if __name__ == '__main__':
             if time.time() - timer_start >= duration:
                 stinput = True
             client.publish('lab/UNIQUE_ID/photo/mean', (max(arr) + min(arr)) / 2)
-            # client.publish('lab/UNIQUE_ID/photo/min', min(arr))
             client.publish('lab/UNIQUE_ID/photo/porog', result)
             
 

@@ -11,16 +11,6 @@ def get_connection(port):
     ser = serial.Serial(port, timeout=1)
     return ser
 
-# def send(ser, message, mesg_len):
-#     ser.write(message)
-#     time.sleep(0.1)
-#     result = None
-#     if mesg_len != 0:
-#         data = ser.read(mesg_len)
-#         result = data.decode()
-#         result = result.strip()
-#         print(result)
-#     return 
 arr = []
 avg_all = 0
 avg = 0
@@ -36,8 +26,6 @@ if __name__ == '__main__':
             3 - streaming data
             4 - Stream min, max and current values (20 seconds)
             5 - on the threshold of turning on the light""")
-
-    # while ser.inWaiting() < 0 and 
     while(True):
         if stinput:
             command = int(input("Enter: "))
@@ -46,9 +34,7 @@ if __name__ == '__main__':
             pass
         
         val = ser.read(2)
-        # print(val)
-        # val = ser.readline()
-        # val = ser.read(count)
+
         result = val.decode()
 
         if(result!=""):
@@ -98,20 +84,3 @@ if __name__ == '__main__':
     client.disconnect()
 
 
-
-    # print(type(val))
-    # val = val.strip()
-    # result = int.from_bytes(val, "big")
-    #result = int(val)
-    #val = ser.readline()
-    # result = [int(byte_) for byte_ in val]  
-    # result = (result[0] << 8 & 0xFF00) + (result[1] & 0xFF) 
-    # result = map(result, 0, 1024, 0, 100)
-    # result = val.decode()
-    # result = result.strip()
-    # print(result)
-    # print("fkfkfjm")
-
-# client.connect(broker)
-# client.publish('lab/UNIQUE_ID/photo/instant', "Hello Irishka!!")
-# client.disconnect()

@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt_client
 import random
 import serial
 
-port = "COM3"
+port = "COM8"
 ser = serial.Serial(port, 9600)
 
 mean = 0
